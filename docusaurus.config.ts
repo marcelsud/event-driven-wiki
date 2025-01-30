@@ -38,10 +38,6 @@ const config: Config = {
       {
         docs: {
           sidebarPath: "./sidebars.ts",
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
         },
         theme: {
           customCss: "./src/css/custom.css",
@@ -60,12 +56,6 @@ const config: Config = {
         src: "img/undraw_envelope.svg",
       },
       items: [
-        // {
-        //   type: 'docSidebar',
-        //   sidebarId: 'tutorialSidebar',
-        //   position: 'left',
-        //   label: 'Conteúdo',
-        // },
         {
           href: "https://www.linkedin.com/in/marcelsud/",
           label: "Linkedin",
@@ -76,7 +66,7 @@ const config: Config = {
     footer: {
       style: "dark",
       links: [],
-      copyright: `Copyright © ${new Date().getFullYear()} Event-driven Wiki. Built proudly by @marcelsud.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Event-driven Wiki.  Construído com orgulho por @marcelsud.`,
     },
     prism: {
       theme: prismThemes.github,
