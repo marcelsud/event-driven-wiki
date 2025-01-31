@@ -9,7 +9,11 @@ Arquitetura Orientada a Eventos (Event-Driven Architecture ou EDA) é um modelo 
 
 ## O que é um Evento?
 
-Um **evento** é uma representação de uma ação ou ocorrência relevante que é gerada por uma aplicação ou sistema. Ele pode ser o resultado de uma interação do usuário, uma alteração no estado de um sistema ou mesmo uma condição detectada automaticamente. Exemplos de eventos incluem:
+Um **evento** é uma representação de uma ação ou ocorrência relevante que é gerada por uma aplicação ou sistema. Ele pode ser o resultado de uma interação do usuário, uma alteração no estado de um sistema ou mesmo uma condição detectada automaticamente.
+
+<img src="/img/image_001.png" width="650"/>
+
+Exemplos de eventos incluem:
 
 - **Compra realizada**: Um cliente conclui a compra de um produto, disparando processos de pagamento, estoque e envio.
 - **Pagamento recebido**: O sistema de pagamento confirma a quitação de uma dívida, atualizando o saldo e notificando outras áreas do negócio.
@@ -37,13 +41,44 @@ Os canais também oferecem mecanismos para tolerância a falhas e gerenciamento 
 
 ## Tipos de Eventos
 
-Os eventos podem ser classificados em diferentes tipos, cada um com funções específicas dentro do sistema:
+1. **Notification Event (Evento de Notificação)**
 
-- **Eventos de Comando**: Instrui um sistema a realizar uma ação, como "Criar Pedido". Este tipo de evento é mais direto e tem uma consequência imediata.
-- **Eventos de Notificação**: Informa que algo aconteceu, como "Pedido Concluído". Outros sistemas podem reagir a este evento, mas ele não requer uma ação obrigatória.
-- **Eventos de Estado**: Indicam o estado atual de uma entidade, como "Saldo Atualizado". Eles são usados para garantir que outros serviços estejam sincronizados com o estado mais recente.
+   - **Característica principal:** enviar um aviso de que algo aconteceu.
+   - **Exemplo:**
 
-A classificação correta dos eventos ajuda a manter a arquitetura organizada e eficiente.
+   ```json
+   { "orderId": "123" }
+   ```
+
+   - **Contrato com poucos detalhes:** costuma conter apenas dados mínimos para notificar outros serviços ou partes interessadas sobre um fato (e.g., “usuário foi criado”, “pedido foi atualizado” etc.).
+   - **Geralmente utilizado para:** disparar processos que só precisam saber que o evento ocorreu (por exemplo, enviar um e-mail de boas-vindas para o usuário). O consumidor do evento pode usar o `userId` para buscar mais detalhes, se necessário.
+
+2. **Event-Carried State Transfer (Transferência de Estado via Evento)**
+
+   - **Característica principal:** o evento carrega o estado ou parte dele, permitindo que o consumidor atualize suas próprias estruturas de dados sem precisar de consultas extras.
+   - **Exemplo:**
+     ```json
+     {
+       "orderId": "123",
+       "status": "PAID",
+       "paymentType": "PIX",
+       ...
+     }
+     ```
+   - **Contrato com mais detalhes:** o evento fornece não apenas a notificação mas também dados suficientes para que os serviços interessados conheçam o contexto ou estado que foi alterado (por exemplo, para atualizar uma base local sem precisar chamar a origem).
+   - **Geralmente utilizado para:** sincronizar serviços entre si. Quando um serviço dispara o evento, ele já inclui as informações de que outro precisa para tomar decisões ou manter seu próprio modelo de dados em cache.
+
+3. **Domain Events (Eventos de Domínio)**
+
+   - **Característica principal:** representam conceitos específicos de negócio, vinculados ao modelo de domínio.
+   - **Exemplo:**
+
+   ```json
+   {"order": {...}, "customer": {...}}
+   ```
+
+   - **Contrato focado em linguagem de domínio:** costuma conter dados que exprimem ações, status ou mudanças significativas segundo a ótica do domínio (por exemplo, `OrderPlaced`, `PaymentReceived`, `UserRegistered`).
+   - **Geralmente utilizado para:** comunicar mudanças relevantes do ponto de vista de negócio, agregando valor semântico para quem consome o evento. Em uma arquitetura de microserviços, esses eventos geram baixo acoplamento e preservam a autonomia dos contextos, ao mesmo tempo em que mantêm uma linguagem ubíqua (ubiquitous language).
 
 ## Benefícios da Arquitetura Orientada a Eventos
 
