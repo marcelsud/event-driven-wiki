@@ -9,9 +9,14 @@ Arquitetura Orientada a Eventos (Event-Driven Architecture ou EDA) é um modelo 
 
 ## O que é um Evento?
 
+<img src="/img/image_001.png" alt="Exemplos de eventos" />
+
 Um **evento** é uma representação de uma ação ou ocorrência relevante que é gerada por uma aplicação ou sistema. Ele pode ser o resultado de uma interação do usuário, uma alteração no estado de um sistema ou mesmo uma condição detectada automaticamente.
 
-<img src="/img/image_001.png" width="650"/>
+:::tip[Dualidade Evento/Mensagem]
+
+Um evento é um tipo especial de **mensagem**, pois ele também transporta dados de um ponto a outro. A diferença está no propósito e na semântica: a mensagem (no sentido amplo) pode representar comandos, requisições ou outros tipos de comunicação, enquanto o evento descreve especificamente algo que **já aconteceu**, um fato.
+:::
 
 Exemplos de eventos incluem:
 
@@ -23,7 +28,7 @@ Cada evento pode conter dados sobre o contexto em que foi gerado, como data, hor
 
 ## Componentes Principais
 
-Em uma arquitetura orientada a eventos, geralmente encontramos os seguintes componentes:
+<img src="/img/image_002.png" alt="Componentes Principais" />
 
 ### Produtor de Eventos
 
@@ -74,7 +79,10 @@ Os canais também oferecem mecanismos para tolerância a falhas e gerenciamento 
    - **Exemplo:**
 
    ```json
-   {"order": {...}, "customer": {...}}
+   {
+     "order": {...},
+     "customer": {...}
+   }
    ```
 
    - **Contrato focado em linguagem de domínio:** costuma conter dados que exprimem ações, status ou mudanças significativas segundo a ótica do domínio (por exemplo, `OrderPlaced`, `PaymentReceived`, `UserRegistered`).
@@ -83,7 +91,7 @@ Os canais também oferecem mecanismos para tolerância a falhas e gerenciamento 
 ## Benefícios da Arquitetura Orientada a Eventos
 
 - **Desacoplamento**: Os produtores e consumidores de eventos podem evoluir independentemente, reduzindo a dependência direta entre serviços. Isso torna o sistema mais modular e facilita a manutenção.
-- **Escalabilidade**: A distribuição de eventos permite escalonamento horizontal dos consumidores, possibilitando que diferentes módulos possam processar grandes volumes de dados simultaneamente.
+- **Escalabilidade**: A distribuição de eventos permite escalabilidade horizontal dos consumidores, possibilitando que diferentes módulos possam processar grandes volumes de dados simultaneamente.
 - **Flexibilidade**: Novos consumidores podem ser adicionados sem alterar os produtores. Essa característica facilita a introdução de novos recursos e integrações.
 - **Reatividade**: Permite respostas em tempo real a eventos do sistema, melhorando a experiência do usuário e o desempenho operacional.
 - **Tolerância a Falhas**: Arquiteturas bem projetadas podem se recuperar automaticamente de falhas, garantindo alta disponibilidade.
